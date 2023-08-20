@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/Core" />
+            <option value="$PROJECT_DIR$/Missions" />
+            <option value="$PROJECT_DIR$/Missions/BlocksMissions" />
+            <option value="$PROJECT_DIR$/Missions/BrewingMissions" />
+            <option value="$PROJECT_DIR$/Missions/CraftingMissions" />
+            <option value="$PROJECT_DIR$/Missions/EnchantingMissions" />
+            <option value="$PROJECT_DIR$/Missions/FarmingMissions" />
+            <option value="$PROJECT_DIR$/Missions/FishingMissions" />
+            <option value="$PROJECT_DIR$/Missions/IslandMissions" />
+            <option value="$PROJECT_DIR$/Missions/ItemsMissions" />
+            <option value="$PROJECT_DIR$/Missions/KillsMissions" />
+            <option value="$PROJECT_DIR$/Missions/StatisticsMissions" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

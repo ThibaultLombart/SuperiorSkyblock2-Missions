@@ -49,6 +49,8 @@ public class BlocksMissions extends Mission<DataTracker> implements Listener {
     private final Map<Requirements, Integer> requiredBlocks = new LinkedHashMap<>();
 
     private boolean onlyNatural, blocksPlacement, replaceBlocks;
+
+    private List<String> missionsRequired = new ArrayList<>();
     private SuperiorSkyblock plugin;
 
     private Predicate<Block> isBarrelCheck;
@@ -70,6 +72,7 @@ public class BlocksMissions extends Mission<DataTracker> implements Listener {
         onlyNatural = section.getBoolean("only-natural-blocks", false);
         blocksPlacement = section.getBoolean("blocks-placement", false);
         replaceBlocks = section.getBoolean("blocks-replace", false);
+        missionsRequired = section.getStringList("required-missions");
 
         Bukkit.getPluginManager().registerEvents(this, plugin);
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
@@ -201,6 +204,22 @@ public class BlocksMissions extends Mission<DataTracker> implements Listener {
         loadTrackedBlocks(section.getConfigurationSection("tracked.placed"), section.getConfigurationSection("tracked.broken"));
     }
 
+    public boolean checkPlayer(SuperiorPlayer player, Player player2){
+        if(!missionsRequired.isEmpty()){
+            List<Mission<?>> listMission = player.getCompletedMissions();
+            List<String> listeStringMission = new ArrayList<>();
+            for(int i = 0; i < listMission.size(); i++){
+                listeStringMission.add(listMission.get(i).getName());
+            }
+            for(int y = 0; y < missionsRequired.size(); y++){
+                if(!listeStringMission.contains(missionsRequired.get(y))){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     private static void loadTrackedBlocks(@Nullable ConfigurationSection trackedPlacedSection,
                                           @Nullable ConfigurationSection trackedBrokenSection) {
         if (trackedPlacedSection != null) {
@@ -259,13 +278,15 @@ public class BlocksMissions extends Mission<DataTracker> implements Listener {
 
         DataTracker blocksCounter = getOrCreate(superiorPlayer, s -> new DataTracker());
 
+
         if (blocksCounter == null)
             return;
 
         BlockInfo blockInfo = new BlockInfo(e.getBlock());
 
         if (blocksPlacement) {
-            if (!replaceBlocks && isMissionBlock(blockInfo)) {
+            if (!replaceBlocks && isMissionBlock(blockInfo) && checkPlayer(superiorPlayer,e.getPlayer())) {
+                e.getPlayer().sendMessage("TEST 1");
                 BLOCKS_TRACKER.untrackBlock(BlocksTracker.TrackingType.PLACED_BLOCKS, e.getBlock());
                 blocksCounter.track(blockInfo.getBlockKey(), getBlockAmount(e.getPlayer(), e.getBlock()) * -1);
             }
